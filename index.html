@@ -4,230 +4,508 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
     <title>共用記事本</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, "Microsoft JhengHei", sans-serif;
-            background-color: #f3f5f7;
-            color: #333;
+        html {
+            -webkit-text-size-adjust: 100%;
         }
 
-        .container {
-            width: 92%;
-            max-width: 700px;
-            margin: 30px auto;
+        body {
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Microsoft JhengHei",
+                Arial,
+                sans-serif;
+
+            background: #f4f5f7;
+            color: #222;
+
+            padding-bottom:
+                env(safe-area-inset-bottom);
         }
+
+
+        /* =========================
+           最外層
+        ========================= */
+
+        .container {
+            width: calc(100% - 24px);
+            max-width: 720px;
+
+            margin: 0 auto;
+
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+
+        /* =========================
+           標題
+        ========================= */
 
         h1 {
             text-align: center;
-            margin-bottom: 10px;
+
+            margin:
+                5px 0 8px;
+
+            font-size: 28px;
         }
+
 
         .status {
             text-align: center;
-            color: #666;
-            font-size: 14px;
+
             margin-bottom: 20px;
+
+            font-size: 14px;
+
+            color: #777;
         }
+
 
         .dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+
+            width: 9px;
+            height: 9px;
+
             border-radius: 50%;
-            background-color: #aaa;
+
+            background: #aaa;
+
             margin-right: 5px;
         }
 
+
         .dot.online {
-            background-color: #4caf50;
+            background: #35a853;
         }
+
+
+        /* =========================
+           新增區塊
+        ========================= */
 
         .add-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            margin-bottom: 25px;
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 2px 12px
+                rgba(0, 0, 0, 0.07);
+
+            margin-bottom: 26px;
         }
 
+
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 17px;
         }
+
 
         label {
             display: block;
+
             margin-bottom: 7px;
-            font-weight: bold;
+
+            font-weight: 600;
+
+            font-size: 15px;
         }
+
 
         input,
         select {
+            display: block;
+
             width: 100%;
-            padding: 11px;
+
+            min-height: 48px;
+
+            padding:
+                10px 12px;
+
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: white;
+
+            border:
+                1px solid #d5d5d5;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #222;
         }
+
 
         input:focus,
         select:focus {
             outline: none;
+
             border-color: #4caf50;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(76, 175, 80, 0.12);
         }
 
+
         button {
+            font-family: inherit;
+
             border: none;
-            border-radius: 8px;
+
             cursor: pointer;
-            font-size: 16px;
+
+            touch-action:
+                manipulation;
         }
+
 
         .add-btn {
             width: 100%;
-            padding: 13px;
-            background-color: #4caf50;
+
+            min-height: 50px;
+
+            border-radius: 11px;
+
+            background: #4caf50;
+
             color: white;
+
+            font-size: 17px;
+
             font-weight: bold;
         }
 
-        .add-btn:hover {
-            background-color: #43a047;
+
+        .add-btn:active {
+            transform:
+                scale(0.99);
         }
+
 
         .add-btn:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
+            background: #aaa;
         }
+
+
+        /* =========================
+           待辦標題
+        ========================= */
+
+        .list-title {
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 12px;
+        }
+
+
+        .list-title h2 {
+            margin: 0;
+
+            font-size: 21px;
+        }
+
+
+        /* =========================
+           每一筆記事
+        ========================= */
 
         .task {
-            background-color: white;
+            width: 100%;
+
+            background: white;
+
             padding: 16px;
+
+            border-radius: 14px;
+
             margin-bottom: 12px;
-            border-radius: 12px;
-            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.07);
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.06);
+
+            overflow: hidden;
         }
+
 
         .task.today {
-            border-left: 6px solid #ff9800;
+            border-left:
+                6px solid #ff9800;
         }
+
 
         .task.past {
-            border-left: 6px solid #e74c3c;
+            border-left:
+                6px solid #e74c3c;
         }
 
+
         .task.future {
-            border-left: 6px solid #4caf50;
+            border-left:
+                6px solid #4caf50;
         }
+
 
         .task.done {
             opacity: 0.55;
         }
 
+
         .task.done .task-text {
-            text-decoration: line-through;
+            text-decoration:
+                line-through;
         }
+
+
+        /* =========================
+           第一排
+        ========================= */
 
         .task-top {
             display: flex;
-            align-items: center;
+
+            align-items:
+                flex-start;
+
             gap: 12px;
         }
 
+
         .task-checkbox {
-            width: 21px;
-            height: 21px;
-            flex-shrink: 0;
+            appearance: auto;
+
+            width: 23px;
+            height: 23px;
+
+            min-width: 23px;
+            min-height: 23px;
+
+            margin-top: 1px;
         }
+
 
         .task-text {
             flex: 1;
+
+            min-width: 0;
+
             font-size: 18px;
-            font-weight: bold;
-            word-break: break-word;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+
+            overflow-wrap:
+                anywhere;
+
+            word-break:
+                break-word;
         }
+
+
+        /* =========================
+           日期
+        ========================= */
 
         .task-info {
             margin-top: 12px;
+
+            padding-left: 35px;
+
             font-size: 14px;
+
             color: #666;
         }
 
+
+        /* =========================
+           下方操作
+        ========================= */
+
         .task-bottom {
             display: flex;
+
             gap: 10px;
-            margin-top: 14px;
+
+            margin-top: 15px;
         }
+
 
         .task-bottom select {
             flex: 1;
         }
 
+
         .delete-btn {
-            background-color: #e74c3c;
+            min-height: 48px;
+
+            padding:
+                0 22px;
+
+            border-radius: 10px;
+
+            background: #e74c3c;
+
             color: white;
-            padding: 0 18px;
+
+            font-size: 16px;
+
+            font-weight: 600;
         }
 
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
 
-        .empty {
+        /* =========================
+           空白 / 載入
+        ========================= */
+
+        .empty,
+        .loading {
+            width: 100%;
+
             text-align: center;
-            background-color: white;
-            padding: 35px 10px;
-            border-radius: 12px;
+
+            background: white;
+
+            padding:
+                35px 15px;
+
+            border-radius: 14px;
+
             color: #999;
         }
 
-        .loading {
-            text-align: center;
-            padding: 30px;
-            color: #777;
-        }
 
-        @media (max-width: 500px) {
+        /* =========================
+           手機版
+        ========================= */
+
+        @media
+        (max-width: 599px) {
 
             .container {
-                margin-top: 18px;
+                width:
+                    calc(100% - 20px);
+
+                padding-top:
+                    12px;
             }
+
 
             h1 {
-                font-size: 26px;
+                font-size: 25px;
+
+                margin-top: 5px;
             }
+
+
+            .add-box {
+                padding: 16px;
+
+                border-radius: 14px;
+            }
+
+
+            .task {
+                padding: 15px;
+            }
+
+
+            .task-text {
+                font-size: 17px;
+            }
+
+
+            .task-info {
+                padding-left: 34px;
+            }
+
 
             .task-bottom {
-                flex-direction: column;
+                flex-direction:
+                    column;
             }
 
-            .delete-btn {
-                padding: 11px;
+
+            .task-bottom select {
+                width: 100%;
             }
+
+
+            .delete-btn {
+                width: 100%;
+
+                min-height: 48px;
+            }
+
+        }
+
+
+        /* =========================
+           電腦 / 平板
+        ========================= */
+
+        @media
+        (min-width: 600px) {
+
+            .container {
+                padding-top: 30px;
+            }
+
+
+            .add-box {
+                padding: 22px;
+            }
+
         }
 
     </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <h1>📝 共用記事本</h1>
+    <h1>
+        📝 共用記事本
+    </h1>
+
 
     <div class="status">
 
-        <span id="dot" class="dot"></span>
+        <span
+            id="dot"
+            class="dot"
+        ></span>
 
         <span id="statusText">
             正在連接雲端...
@@ -240,7 +518,7 @@
 
         <div class="input-group">
 
-            <label>
+            <label for="taskInput">
                 要做的事情
             </label>
 
@@ -255,7 +533,7 @@
 
         <div class="input-group">
 
-            <label>
+            <label for="dateInput">
                 日期
             </label>
 
@@ -269,7 +547,7 @@
 
         <div class="input-group">
 
-            <label>
+            <label for="timeTypeInput">
                 時間
             </label>
 
@@ -299,9 +577,13 @@
     </div>
 
 
-    <h2>
-        待辦事項
-    </h2>
+    <div class="list-title">
+
+        <h2>
+            待辦事項
+        </h2>
+
+    </div>
 
 
     <div id="taskList">
@@ -317,19 +599,19 @@
 
 <script type="module">
 
-    // =========================================
-    // Firebase
-    // =========================================
-
     import {
         initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    }
+    from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
     import {
         getAuth,
         signInAnonymously
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+    }
+    from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
     import {
@@ -341,13 +623,15 @@
         updateDoc,
         deleteDoc,
         serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+    }
+    from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
 
-    // =========================================
-    // 你的 Firebase 設定
-    // =========================================
+    /* =========================
+       Firebase 設定
+    ========================= */
 
     const firebaseConfig = {
 
@@ -376,12 +660,10 @@
 
 
 
-    // =========================================
-    // 啟動 Firebase
-    // =========================================
-
     const app =
-        initializeApp(firebaseConfig);
+        initializeApp(
+            firebaseConfig
+        );
 
 
     const auth =
@@ -399,10 +681,6 @@
         );
 
 
-
-    // =========================================
-    // HTML 元素
-    // =========================================
 
     const taskInput =
         document.getElementById(
@@ -450,15 +728,17 @@
 
 
 
-    // =========================================
-    // 匿名登入
-    // =========================================
+    /* =========================
+       登入 Firebase
+    ========================= */
 
     async function login() {
 
         try {
 
-            await signInAnonymously(auth);
+            await signInAnonymously(
+                auth
+            );
 
 
             statusText.textContent =
@@ -480,15 +760,17 @@
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
 
             statusText.textContent =
-                "Firebase 連線失敗";
+                "雲端連線失敗";
 
 
             alert(
-                "Firebase 登入失敗！請確認 Authentication 匿名登入是否已開啟。"
+                "Firebase 登入失敗！"
             );
 
         }
@@ -497,9 +779,9 @@
 
 
 
-    // =========================================
-    // 即時讀取記事
-    // =========================================
+    /* =========================
+       即時讀取
+    ========================= */
 
     function listenTasks() {
 
@@ -513,27 +795,30 @@
 
 
                 snapshot.forEach(
+
                     function(item) {
 
                         tasks.push({
 
-                            id: item.id,
+                            id:
+                                item.id,
 
                             ...item.data()
 
                         });
 
                     }
+
                 );
 
 
-                // 日期排序
-
                 tasks.sort(
+
                     function(a, b) {
 
                         if (
-                            a.date === b.date
+                            a.date ===
+                            b.date
                         ) {
 
                             return 0;
@@ -541,18 +826,15 @@
                         }
 
 
-                        if (
-                            a.date < b.date
-                        ) {
-
-                            return -1;
-
-                        }
-
-
-                        return 1;
+                        return (
+                            a.date <
+                            b.date
+                        )
+                        ? -1
+                        : 1;
 
                     }
+
                 );
 
 
@@ -562,16 +844,13 @@
 
             function(error) {
 
-                console.error(error);
+                console.error(
+                    error
+                );
 
 
                 statusText.textContent =
-                    "資料同步失敗";
-
-
-                alert(
-                    "Firestore 無法讀取資料，請確認 Rules 是否設定正確。"
-                );
+                    "同步失敗";
 
             }
 
@@ -581,9 +860,9 @@
 
 
 
-    // =========================================
-    // 新增記事
-    // =========================================
+    /* =========================
+       新增
+    ========================= */
 
     async function addTask() {
 
@@ -673,7 +952,9 @@
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
 
             alert(
@@ -697,9 +978,9 @@
 
 
 
-    // =========================================
-    // 顯示記事
-    // =========================================
+    /* =========================
+       顯示
+    ========================= */
 
     function showTasks() {
 
@@ -737,6 +1018,7 @@
 
 
         tasks.forEach(
+
             function(task) {
 
                 const box =
@@ -754,10 +1036,9 @@
 
 
 
-                // 日期顏色
-
                 if (
-                    task.date === today
+                    task.date ===
+                    today
                 ) {
 
                     box.classList.add(
@@ -767,7 +1048,8 @@
                 }
 
                 else if (
-                    task.date < today
+                    task.date <
+                    today
                 ) {
 
                     box.classList.add(
@@ -786,10 +1068,9 @@
 
 
 
-                // 已完成
-
                 if (
-                    task.done === true
+                    task.done ===
+                    true
                 ) {
 
                     box.classList.add(
@@ -799,10 +1080,6 @@
                 }
 
 
-
-                // =================================
-                // 上半部
-                // =================================
 
                 const top =
                     document.createElement(
@@ -880,10 +1157,6 @@
 
 
 
-                // =================================
-                // 日期資訊
-                // =================================
-
                 const info =
                     document.createElement(
                         "div"
@@ -895,16 +1168,12 @@
 
 
                 info.textContent =
-                    "📅 日期：" +
+                    "📅 " +
                     formatDate(
                         task.date
                     );
 
 
-
-                // =================================
-                // 下半部
-                // =================================
 
                 const bottom =
                     document.createElement(
@@ -923,43 +1192,43 @@
                     );
 
 
-                const option1 =
+                const beforeOption =
                     document.createElement(
                         "option"
                     );
 
 
-                option1.value =
+                beforeOption.value =
                     "之前";
 
 
-                option1.textContent =
+                beforeOption.textContent =
                     "之前";
 
 
 
-                const option2 =
+                const todayOption =
                     document.createElement(
                         "option"
                     );
 
 
-                option2.value =
+                todayOption.value =
                     "當天";
 
 
-                option2.textContent =
+                todayOption.textContent =
                     "當天";
 
 
 
                 select.appendChild(
-                    option1
+                    beforeOption
                 );
 
 
                 select.appendChild(
-                    option2
+                    todayOption
                 );
 
 
@@ -1029,7 +1298,6 @@
                 );
 
 
-
                 box.appendChild(
                     top
                 );
@@ -1050,15 +1318,16 @@
                 );
 
             }
+
         );
 
     }
 
 
 
-    // =========================================
-    // 完成 / 未完成
-    // =========================================
+    /* =========================
+       完成
+    ========================= */
 
     async function changeDone(
         id,
@@ -1067,17 +1336,13 @@
 
         try {
 
-            const taskRef =
+            await updateDoc(
+
                 doc(
                     db,
                     "tasks",
                     id
-                );
-
-
-            await updateDoc(
-
-                taskRef,
+                ),
 
                 {
 
@@ -1092,7 +1357,9 @@
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
 
             alert(
@@ -1105,9 +1372,9 @@
 
 
 
-    // =========================================
-    // 修改 之前 / 當天
-    // =========================================
+    /* =========================
+       修改之前 / 當天
+    ========================= */
 
     async function changeTimeType(
         id,
@@ -1116,17 +1383,13 @@
 
         try {
 
-            const taskRef =
+            await updateDoc(
+
                 doc(
                     db,
                     "tasks",
                     id
-                );
-
-
-            await updateDoc(
-
-                taskRef,
+                ),
 
                 {
 
@@ -1141,7 +1404,9 @@
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
 
             alert(
@@ -1154,9 +1419,9 @@
 
 
 
-    // =========================================
-    // 刪除
-    // =========================================
+    /* =========================
+       刪除
+    ========================= */
 
     async function removeTask(
         id
@@ -1179,23 +1444,23 @@
 
         try {
 
-            const taskRef =
+            await deleteDoc(
+
                 doc(
                     db,
                     "tasks",
                     id
-                );
+                )
 
-
-            await deleteDoc(
-                taskRef
             );
 
         }
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
 
             alert(
@@ -1208,9 +1473,9 @@
 
 
 
-    // =========================================
-    // 今天日期
-    // =========================================
+    /* =========================
+       今天
+    ========================= */
 
     function getToday() {
 
@@ -1252,9 +1517,9 @@
 
 
 
-    // =========================================
-    // 日期顯示
-    // =========================================
+    /* =========================
+       日期格式
+    ========================= */
 
     function formatDate(
         date
@@ -1277,20 +1542,19 @@
 
         return (
             parts[0] +
-            "年" +
+            "/" +
             parts[1] +
-            "月" +
-            parts[2] +
-            "日"
+            "/" +
+            parts[2]
         );
 
     }
 
 
 
-    // =========================================
-    // Enter 新增
-    // =========================================
+    /* =========================
+       按 Enter 新增
+    ========================= */
 
     taskInput.addEventListener(
 
@@ -1299,7 +1563,8 @@
         function(event) {
 
             if (
-                event.key === "Enter"
+                event.key ===
+                "Enter"
             ) {
 
                 addTask();
@@ -1311,24 +1576,16 @@
     );
 
 
-
     addButton.addEventListener(
-
         "click",
-
         addTask
-
     );
 
-
-
-    // =========================================
-    // 啟動網站
-    // =========================================
 
     login();
 
 </script>
 
 </body>
+
 </html>
